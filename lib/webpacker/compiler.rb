@@ -14,17 +14,23 @@ class Webpacker::Compiler
   end
 
   def compile
+    puts "Running Compiler.compile"
     unless stale?
+      puts "Stale"
       logger.debug "Everything's up-to-date. Nothing to do"
       return true
     end
 
     if compiling?
+      puts "Waiting for compilation to complete"
       wait_for_compilation_to_complete
       true
     else
+      puts "Aquireing lock"
       acquire_ipc_lock do
+        puts "Running webpack"
         run_webpack.tap do |success|
+          puts "Webpack finished: #{success}"
           after_compile_hook
         end
       end

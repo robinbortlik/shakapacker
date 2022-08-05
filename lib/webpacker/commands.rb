@@ -49,7 +49,9 @@ class Webpacker::Commands
   end
 
   def compile
+    puts "Running Commands.compile"
     compiler.compile.tap do |success|
+      puts "Finished Commands.compile: #{success}"
       manifest.refresh if success
     end
   end
